@@ -1,0 +1,17 @@
+{
+  "id": "01-desk-beginner",
+  "title": "Desk worker, total beginner, home",
+  "holdout": false,
+  "message": "Hi! I'm 34 and I sit at a desk all day. I've never really worked out. I'd like to get generally fitter and a bit stronger. I can do 3 sessions a week, 30 minutes max each, at home. I have a sturdy chair and some floor space, no other equipment. No injuries.",
+  "checks": [
+    { "check": "days", "value": 3 },
+    { "check": "max_minutes", "value": 30 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "chair"] },
+    { "check": "rest_days" },
+    { "check": "max_sets_per_day", "value": 12, "why": "a beginner recovers poorly from high volume" },
+    { "check": "patterns", "value": ["squat|lunge", "hinge", "push", "core"] },
+    { "check": "progression", "value": 0.1 },
+    { "check": "refer", "value": false }
+  ]
+}

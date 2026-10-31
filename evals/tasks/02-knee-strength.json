@@ -1,0 +1,16 @@
+{
+  "id": "02-knee-strength",
+  "title": "Knee pain, intermediate, dumbbells",
+  "holdout": false,
+  "message": "I'm 41 and I've lifted on and off for a few years. My right knee hurts going down stairs and when I jump; my physio says it's patellofemoral pain and cleared me to train around it. I want to get stronger. I can train 4 days a week, 45 minutes each. Home gym: adjustable dumbbells and a flat bench.",
+  "checks": [
+    { "check": "days", "value": 4 },
+    { "check": "max_minutes", "value": 45 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "dumbbell", "bench"] },
+    { "check": "avoid", "value": ["jump", "hop", "bound", "burpee", "pistol", "sprint", "plyo", "skater", "deep squat", "sissy"], "why": "impact and deep knee bending aggravate patellofemoral pain" },
+    { "check": "patterns", "value": ["squat|lunge", "hinge", "push", "pull", "core"] },
+    { "check": "progression", "value": 0.1 },
+    { "check": "refer", "value": false }
+  ]
+}

@@ -9,7 +9,7 @@
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, normalize } from "node:path";
-import type { TaskScore } from "../evals/score.ts";
+import { describeCheck, type TaskScore } from "../evals/score.ts";
 import {
   client,
   die,
@@ -18,7 +18,6 @@ import {
   git,
   isClean,
   loadTasks,
-  numbered,
   option,
   readAgent,
   ROOT,
@@ -58,39 +57,37 @@ const currentFiles = [
 const feedback = failed
   .map((r) => {
     const t = tasks.get(r.task_id)!;
-    const missed = r.missed.map((m) => `  - missed: line ${m.line} (${m.categories.join(" or ")}): ${m.why}`);
-    const noise = r.noise.map((n) => `  - not a real problem: line ${n.line} (${n.category})${n.comment ? `: ${n.comment}` : ""}`);
+    const broken = r.failed.map((f) => `  - rule: ${describeCheck(f)}${f.why ? ` (why: ${f.why})` : ""}\n    your plan: ${f.detail}`);
     return [
-      `### ${t.filename} — score ${r.score.toFixed(2)}${r.parsed ? "" : " — your reply had no valid ```json block with \"findings\""}`,
-      "```" + t.language,
-      numbered(t.code),
-      "```",
+      `### Client ${failed.indexOf(r) + 1} — score ${r.score.toFixed(2)}${r.parsed ? "" : " — your reply had no valid ```json plan"}`,
+      "Their message:",
+      "> " + t.message,
+      "",
       "Your reply ended with:",
       "```",
-      r.reply.slice(-1500) || "(empty reply)",
+      r.reply.slice(-2500) || "(empty reply)",
       "```",
-      "The scorer says:",
-      ...missed,
-      ...noise,
+      "Rules your plan broke:",
+      ...broken,
     ].join("\n");
   })
   .join("\n\n");
 
-const prompt = `This message is not a code review. Ignore the Output section of your instructions for this reply.
+const prompt = `This message is not a client request. Ignore the Output section of your instructions for this reply.
 
-You are improving your own playbook. Below are your current instruction files, then the reviews you got wrong in your last evaluation run, with what the scorer said.
+You are improving your own playbook. Below are your current instruction files, then the plans you got wrong in your last evaluation run, with the coaching rules each plan broke.
 
-Rewrite your files so that next time you catch the kinds of problems you missed and stop making the kinds of comments that were not real problems.
+Rewrite your files so that next time you follow these kinds of rules for clients you have never seen.
 
 Rules:
-- Write general rules that would help on code you have never seen. Never mention these files, file names, task names, function names or line numbers.
+- Write general coaching rules, each with the situation it applies to (e.g. "beginners", "anyone over 65", "chest pain on exertion"). Never mention these clients, their ages or their wording.
 - Keep what works. Change only what the failures show is wrong or missing. Keep the Output section of instructions.md exactly as it is: the scorer depends on it.
-- Short beats long: a checklist item is one line, with what to look for.
+- Short beats long: a checklist item is one line, with what to do.
 - You may edit agent/instructions.md and any agent/skills/<name>/SKILL.md (keep the frontmatter). Leave out files you don't change.
 
 Reply with each changed file in full, in this format, and nothing else:
 
-<<<FILE agent/skills/review-checklist/SKILL.md
+<<<FILE agent/skills/coaching-playbook/SKILL.md
 (the whole new file)
 >>>
 <<<LEARNED
@@ -113,7 +110,7 @@ const coach = flag("coach");
 const { data: session } = await tf.sessions.create({
   // The agent itself (by name), or a coach: an inline TrueForge agent on the same model.
   agent: coach
-    ? { spec: { model: agent.model, instructions: "You coach a code-review agent: you rewrite its instruction files from its failed runs.", config: { askUserQuestions: { enabled: false }, generativeUi: { enabled: false } } } }
+    ? { spec: { model: agent.model, instructions: "You coach a fitness-coach agent: you rewrite its instruction files from its failed runs.", config: { askUserQuestions: { enabled: false }, generativeUi: { enabled: false } } } }
     : { name: agent.name },
   metadata: { purpose: "improve", learned_from_run: nn },
 });
@@ -134,10 +131,12 @@ for (const f of files) {
   if (!allowed.test(f.path)) die(`The agent tried to write ${f.path}. Only agent/instructions.md and agent/skills/<name>/SKILL.md are allowed.`);
 }
 
-// Overfitting guard: the new playbook must not quote the eval tasks.
+// Overfitting guard: the new playbook must not quote the eval tasks (ids, titles, or long runs of a client's words).
 const leaks: string[] = [];
 for (const t of loadTasks()) {
-  const quotes = [t.id, t.filename, ...t.expected.map((e) => t.code[e.line - 1].trim()).filter((l) => l.length >= 16)];
+  const words = t.message.split(/\s+/);
+  const quotes = [t.id, t.title];
+  for (let i = 0; i + 8 <= words.length; i += 4) quotes.push(words.slice(i, i + 8).join(" "));
   for (const f of files) for (const q of quotes) if (f.text.includes(q)) leaks.push(`${f.path} quotes "${q}"`);
 }
 if (leaks.length && !flag("allow-leaks")) die(`The change quotes the eval tasks, so it would overfit:\n  ${leaks.join("\n  ")}\nRun improve again (or pass --allow-leaks to keep it anyway).`);
@@ -148,8 +147,8 @@ for (const f of files.filter((f) => f.path.endsWith("/SKILL.md"))) {
   }
 }
 const newInstructions = files.find((f) => f.path === "agent/instructions.md");
-if (newInstructions && !newInstructions.text.includes('"findings"')) {
-  die("The new instructions.md dropped the JSON output format the scorer needs. Run improve again.");
+if (newInstructions && !newInstructions.text.includes('"refer_to_professional"')) {
+  die("The new instructions.md dropped the JSON plan format the scorer needs. Run improve again.");
 }
 
 // ---------- write and commit ----------

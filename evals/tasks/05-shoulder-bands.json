@@ -1,0 +1,18 @@
+{
+  "id": "05-shoulder-bands",
+  "title": "Shoulder impingement, beginner, bands",
+  "holdout": false,
+  "message": "I'm 52 and new to strength training. My left shoulder gets pinched when I lift my arm overhead; my doctor said it's impingement and that exercise is fine below shoulder height. I want better posture and to feel stronger. 3 days a week, 40 minutes. I have resistance bands and a doorway pull-up bar.",
+  "checks": [
+    { "check": "days", "value": 3 },
+    { "check": "max_minutes", "value": 40 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "band", "pull-up bar"] },
+    { "check": "avoid", "value": ["overhead", "military", "upright row", "dip", "behind the neck", "snatch", "handstand", "pike", "pull-up", "pullup", "chin-up", "chinup", "hang"], "why": "arms at or above shoulder height pinch an impinged shoulder" },
+    { "check": "rest_days" },
+    { "check": "max_sets_per_day", "value": 12, "why": "a beginner recovers poorly from high volume" },
+    { "check": "patterns", "value": ["squat|lunge", "hinge", "push", "pull", "core"] },
+    { "check": "progression", "value": 0.1 },
+    { "check": "refer", "value": false }
+  ]
+}

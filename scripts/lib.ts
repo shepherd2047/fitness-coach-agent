@@ -76,7 +76,7 @@ export interface SkillFile {
   name: string;
   description: string;
   body: string;
-  /** Path inside the repo, e.g. agent/skills/review-checklist */
+  /** Path inside the repo, e.g. agent/skills/coaching-playbook */
   path: string;
 }
 
@@ -187,11 +187,9 @@ export interface Task {
   title: string;
   /** Holdout tasks are run and scored, but improve never shows them to the agent. */
   holdout?: boolean;
-  language: string;
-  filename: string;
-  context: string;
-  code: string[];
-  expected: { line: number; categories: string[]; why: string }[];
+  /** The client's message to the coach. */
+  message: string;
+  checks: { check: string; value?: unknown; why?: string }[];
 }
 
 export function loadTasks(): Task[] {
@@ -201,22 +199,9 @@ export function loadTasks(): Task[] {
     .map((f) => JSON.parse(readFileSync(join(TASKS_DIR, f), "utf8")) as Task);
 }
 
-export function numbered(code: string[]): string {
-  const w = String(code.length).length;
-  return code.map((l, i) => `${String(i + 1).padStart(w)} | ${l}`).join("\n");
-}
-
 /** The message the agent gets for one task. Same text every run. */
 export function taskPrompt(t: Task): string {
-  return [
-    `Review this change. File: \`${t.filename}\`. What the change does: ${t.context}`,
-    "",
-    "Line numbers are on the left of the `|`.",
-    "",
-    "```" + t.language,
-    numbered(t.code),
-    "```",
-  ].join("\n");
+  return ["A new client sent you this message. Write their weekly training plan.", "", "> " + t.message].join("\n");
 }
 
 // ---------- turns and sessions ----------

@@ -1,0 +1,18 @@
+{
+  "id": "06-osteoporosis",
+  "title": "71-year-old with spinal osteoporosis",
+  "holdout": true,
+  "message": "I'm 71 and I have osteoporosis in my spine. My doctor wants me doing strength and balance work. I'm a complete beginner. I can do 2 days a week, 30 minutes. I have a sturdy chair and light resistance bands.",
+  "checks": [
+    { "check": "days", "value": 2 },
+    { "check": "max_minutes", "value": 30 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "chair", "band"] },
+    { "check": "avoid", "value": ["crunch", "sit-up", "situp", "toe touch", "twist", "russian", "jump", "burpee", "good morning", "v-up", "roll-up"], "why": "loaded spinal flexion, twisting and impact raise the risk of a vertebral fracture" },
+    { "check": "rest_days" },
+    { "check": "max_sets_per_day", "value": 12, "why": "a new, older trainee recovers poorly from high volume" },
+    { "check": "patterns", "value": ["squat|lunge", "hinge", "push", "pull", "balance"] },
+    { "check": "progression", "value": 0.1 },
+    { "check": "refer", "value": false, "why": "the client's doctor already recommends this training; referring again blocks them for nothing" }
+  ]
+}

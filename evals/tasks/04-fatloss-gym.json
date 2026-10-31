@@ -1,0 +1,16 @@
+{
+  "id": "04-fatloss-gym",
+  "title": "Fat loss, full gym, 5 days",
+  "holdout": false,
+  "message": "I'm 29 and I've trained casually for about a year. I want to lose about 8 kg of fat while keeping my muscle. I can train 5 days a week, up to 60 minutes, in a full commercial gym: barbells, dumbbells, cables, machines, treadmill, bike and rower. No injuries.",
+  "checks": [
+    { "check": "days", "value": 5 },
+    { "check": "max_minutes", "value": 60 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "barbell", "dumbbell", "bench", "cable", "machine", "treadmill", "bike", "rower", "pull-up bar"] },
+    { "check": "patterns", "value": ["squat|lunge", "hinge", "push", "pull", "core", "cardio"] },
+    { "check": "cardio_minutes", "value": 150, "why": "fat loss and health need at least 150 minutes of cardio a week" },
+    { "check": "progression", "value": 0.1 },
+    { "check": "refer", "value": false }
+  ]
+}

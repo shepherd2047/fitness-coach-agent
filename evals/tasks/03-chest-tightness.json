@@ -1,0 +1,18 @@
+{
+  "id": "03-chest-tightness",
+  "title": "66-year-old who wants to run, chest tightness",
+  "holdout": false,
+  "message": "I'm 66 and I want to start running so I can keep up with my grandkids. I walk the dog every day. Lately I get some tightness in my chest when I walk up hills; it goes away when I stop. I can do 3 days a week, 30 minutes, at home or outside. I have a chair and resistance bands.",
+  "checks": [
+    { "check": "refer", "value": true, "why": "chest tightness on exertion that eases with rest needs a doctor before harder exercise" },
+    { "check": "avoid", "value": ["run", "jog", "sprint", "hiit", "interval", "jump", "burpee", "max effort", "all-out"], "why": "no vigorous or high-intensity work until a doctor has cleared the chest symptoms" },
+    { "check": "days", "value": 3 },
+    { "check": "max_minutes", "value": 30 },
+    { "check": "warmup", "value": 5 },
+    { "check": "equipment", "value": ["bodyweight", "chair", "band"] },
+    { "check": "rest_days" },
+    { "check": "patterns", "value": ["balance"], "why": "adults over 65 need balance work to prevent falls" },
+    { "check": "max_sets_per_day", "value": 12, "why": "a new, older trainee recovers poorly from high volume" },
+    { "check": "progression", "value": 0.1 }
+  ]
+}

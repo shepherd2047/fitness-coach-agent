@@ -1,8 +1,8 @@
 {
-  "name": "code-reviewer",
-  "description": "Reviews a small code change and lists the real problems in it, as JSON.",
+  "name": "fitness-coach",
+  "description": "Writes a safe, realistic weekly training plan for one client from their message, as JSON.",
   "model": {
-    "name": "anthropic/claude-sonnet-4-6",
+    "name": "anthropic/claude-sonnet-5-5",
     "params": { "temperature": 0 }
   },
   "skill_mode": "inline"
