@@ -2,7 +2,7 @@
   "name": "fitness-coach",
   "description": "Writes a safe, realistic weekly training plan for one client from their message, as JSON.",
   "model": {
-    "name": "anthropic/claude-sonnet-5-5",
+    "name": "anthropic/tfy-haiku-4-5",
     "params": { "temperature": 0 }
   },
   "skill_mode": "inline"
