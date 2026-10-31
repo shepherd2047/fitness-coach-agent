@@ -1,0 +1,27 @@
+{
+  "name": "trueforge-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter repo for the Stranger Builds TrueForge challenge: an agent that gets better every time it runs.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.14"
+  },
+  "scripts": {
+    "setup": "tsx scripts/setup.ts",
+    "run-evals": "tsx scripts/run-evals.ts",
+    "improve": "tsx scripts/improve.ts",
+    "export-session": "tsx scripts/export-session.ts",
+    "score": "tsx evals/score.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@truefoundry/trueforge-sdk": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
