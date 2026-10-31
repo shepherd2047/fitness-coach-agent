@@ -1,25 +1,23 @@
-# TrueForge starter: an agent that gets better every time it runs
+# Fitness coach: an agent that gets better every time it runs
 
-Starter repo for the **Stranger Builds** challenge *"Build an agent that gets better every time it runs"* (sponsor: [TrueForge](https://trueforge.dev) by TrueFoundry).
-
-It gives you a working loop on day one, so you spend the week on the agent:
+Built for the **Stranger Builds** challenge *"Build an agent that gets better every time it runs"* (sponsor: [TrueForge](https://trueforge.dev) by TrueFoundry), from the [TrueForge starter](https://github.com/nerdconf/trueforge-starter).
 
 ```
-run the evals ──► score ──► the agent rewrites its own instructions/skill ──► run again ──► higher score?
+run the evals ──► score ──► the agent rewrites its own coaching playbook ──► run again ──► higher score?
    (TrueForge session)         (from its failures, committed with Agent-Session: <id>)
 ```
 
-The example agent is a **code reviewer**: it reads a small code change and lists the real problems in it as JSON. Its playbook is a `review-checklist` skill that starts short on purpose. Swap in your own agent and tasks; keep the loop.
+The agent is a **personal trainer**: it reads one client's message (age, goal, schedule, equipment, injuries, health issues) and writes their weekly training plan as JSON. Its playbook is a `coaching-playbook` skill that starts with three rules on purpose. The scorer checks each plan against fixed coaching rules: schedule and session length, equipment the client actually has, warm-ups, rest days for beginners, safe exercises for each injury, movement balance, cardio for fat loss, balance work for older adults, a gradual 4-week progression, and referring to a doctor only when the client's symptoms call for it.
+
+It runs on Claude Haiku 4.5 through the TrueFoundry AI Gateway.
 
 ## Run 1 vs run N
 
-> Fill this in at the end. Five lines max. Keep the heading: the challenge checks for it.
-
-- **Task and score:** _e.g. review 4 small code changes; score = 100 × mean(issues caught − 0.5 × noise comments) per task._
-- **Run 1 → run N:** _e.g. 50 → 91.67 (`runs/summary.csv`)._
-- **The change that did it:** _link to the commit with `Agent-Session:`._
-- **What the agent learned:** _one sentence, e.g. "it only checked 3 kinds of bugs; it now also checks mutable defaults, unawaited async callbacks, N+1 queries, leaks and logged secrets."_
-- **What still fails:** _e.g. the holdout task's inverted range check (`||` vs `&&`)._
+- **Task and score:** write weekly plans for 6 clients (1 holdout); score = 100 × mean share of coaching-rule checks each plan passes (`evals/score.ts`).
+- **Run 1 → run N:** 87.5 → 90.83 (`runs/summary.csv`).
+- **The change that did it:** [agent: learn from run 01](../../commit/2d7a1254921b57f2a4ab126e327a7a8249ac0772) (`Agent-Session: 01m6a42yvrm10nv85d9y6khsbv`).
+- **What the agent learned:** chest pain on exertion means refer *and* still give a conservative plan; over-65s need balance work; fat loss needs 150+ min of cardio; 5+ min warm-ups; ≤10% weekly progression; no overhead work with shoulder impingement.
+- **What still fails:** cardio still under 150 min for fat loss, a band-assisted pull-up for the impinged shoulder, and on the holdout a seated spinal twist for spinal osteoporosis.
 
 ## What the challenge asks
 
